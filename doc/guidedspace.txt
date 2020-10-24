@@ -1,0 +1,57 @@
+*guidedspace.txt*	Visualize indentation levels
+
+==============================================================================
+CONTENTS							 *GuidedSpace*
+  1. Introduction..........................................|GuidedSpace-intro|
+  2. Configuration........................................|GuidedSpace-config|
+  3. Commands...........................................|GuidedSpace-commands|
+
+==============================================================================
+*INTRODUCTION*						   *GuidedSpace-intro*
+
+The plugin shows vertical lines at each indentation level. I wrote is as a
+personal replacement for a well-known "indentLine" plugin.
+
+==============================================================================
+CONFIGURATION						  *GuidedSpace-config*
+
+The plugin should be usable as is. The only requirement is to have both
+|:filetype-indent-on| and |:syntax-on| in your |vimrc| in this order (except
+for Neovim where it is already |nvim-defaults|).
+
+The guides' highlight is always |hl-Conceal| (due to Vim limitation), but in
+many color schemes this group has a non-transparent background looking very
+ugly. For this reason, the plugin can re-link |hl-Conceal| to either
+|hl-Whitespace| or |hl-SpecialKey|.
+
+Also, there are a few variables to support further customization.
+
+								*g:GuidedChar*
+
+The code of "line" character to be used by |nr2char()|. Default is 0xA6.
+
+							       *g:GuidedLevel*
+
+The value to set new |'conceallevel'|. Default is 2. You rarely want to modify
+this.
+
+							      *g:GuidedCursor*
+
+The value to set new |'concealcursor'|. Default is "ni".
+
+==============================================================================
+*COMMANDS*						*GuidedSpace-commands*
+
+The plugin also provides a single command.
+
+:GuidedSpace[!] [0|1]						*:GuidedSpace*
+
+The command switches indentation guides on or off. Technically, it updates
+contents of auto-group named "GuidedSpace" |autocmd-groups| and forces new
+settings in all windows by executing |:doautoall|.
+
+You can fine tune actions (maybe debugging?) by setting "bang". So
+`:GuidedSpace` is equivalent to `:GuidedSpace! 1` followed by `:GuidedSpace!`
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
