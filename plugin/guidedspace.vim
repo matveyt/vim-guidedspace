@@ -1,6 +1,6 @@
 " Vim GuidedSpace plugin
 " Maintainer:   matveyt
-" Last Change:  2020 Oct 24
+" Last Change:  2020 Oct 26
 " License:      https://unlicense.org
 " URL:          https://github.com/matveyt/vim-guidedspace
 
@@ -24,21 +24,20 @@ endfunction
 " Add syntax elements to show guides
 function s:add_guides(width) abort
     " also require indent plugin for this buffer
-    " it saves us from filtering out many "special" buffers
+    " this saves us from filtering out many "special" buffers
     " Note: ":filetype indent on" must precede ":syntax on" or it won't work!
     if !get(g:, 'syntax_on') || !get(b:, 'did_indent')
         return
     endif
 
-    " GuidedSpace is here for performance reasons
-    " GuidedChar still includes dreaded \@<= part,
-    " because some other groups may have "contains=ALL"
-    execute printf('syntax match GuidedSpace /^\s\{%d,}/', 1 + a:width)
-        \ 'transparent containedin=ALL contains=GuidedChar'
-    execute printf('syntax match GuidedChar /\(^\s\+\)\@<= \{%d}/ms=e', a:width)
-        \ 'contained conceal cchar='..nr2char(get(g:, 'GuidedChar', 0xA6))
+    " Need \@<=, because too many groups may have "contains=ALL"
+    execute printf('syntax match GuidedSpace /^\s\{%d,}/ms=s+1 containedin=ALL',
+        \ 1 + a:width)
+    execute printf('syntax match GuidedChar /\(^\s* \)\@<= \{%d}/ms=e %s cchar=%s',
+        \ a:width, 'contained containedin=GuidedSpace conceal',
+        \ nr2char(get(g:, 'GuidedChar', 0xA6)))
 
-    " &conceallevel and &concealcursor are local to window!
+    " set local to window options
     for l:winid in win_findbuf(bufnr())
         let [l:tabnr, l:winnr] = win_id2tabwin(l:winid)
         if gettabwinvar(l:tabnr, l:winnr, '&conceallevel') == 0
@@ -46,6 +45,7 @@ function s:add_guides(width) abort
                 \ get(g:, 'GuidedLevel', 2))
             call settabwinvar(l:tabnr, l:winnr, '&concealcursor',
                 \ get(g:, 'GuidedCursor', 'ni'))
+            call settabwinvar(l:tabnr, l:winnr, '&list', 1)
         endif
     endfor
 endfunction
