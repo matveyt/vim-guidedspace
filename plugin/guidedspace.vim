@@ -1,6 +1,6 @@
 " Vim GuidedSpace plugin
 " Maintainer:   matveyt
-" Last Change:  2020 Oct 26
+" Last Change:  2021 Jan 17
 " License:      https://unlicense.org
 " URL:          https://github.com/matveyt/vim-guidedspace
 
@@ -23,10 +23,10 @@ endfunction
 
 " Add syntax elements to show guides
 function s:add_guides(width) abort
-    " also require indent plugin for this buffer
+    " also require indent plugin or, at least, 'smartindent' set
     " this saves us from filtering out many "special" buffers
     " Note: ":filetype indent on" must precede ":syntax on" or it won't work!
-    if !get(g:, 'syntax_on') || !get(b:, 'did_indent')
+    if !get(g:, 'syntax_on') || (!get(b:, 'did_indent') && !&smartindent)
         return
     endif
 

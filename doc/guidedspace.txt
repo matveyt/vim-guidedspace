@@ -17,7 +17,8 @@ CONFIGURATION						  *GuidedSpace-config*
 
 The plugin should be usable as is. The only requirement is to have both
 |:filetype-indent-on| and |:syntax-on| in your |vimrc| in this order (except
-for Neovim where it is already |nvim-defaults|).
+for Neovim where it is already |nvim-defaults|). Or, at least, have
+|'smartindent'| option set for some buffers.
 
 The guides' highlight is always |hl-Conceal| (due to Vim limitation), but in
 many color schemes this group has a non-transparent background looking very
