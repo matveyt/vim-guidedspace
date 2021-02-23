@@ -1,6 +1,6 @@
 " Vim GuidedSpace plugin
 " Maintainer:   matveyt
-" Last Change:  2021 Jan 17
+" Last Change:  2021 Feb 22
 " License:      https://unlicense.org
 " URL:          https://github.com/matveyt/vim-guidedspace
 
@@ -12,12 +12,14 @@ endif
 let s:save_cpo = &cpo
 set cpo&vim
 
-" If hl-Conceal has any background and is not linked (yet)
+" If hl-Conceal has non-Normal background and is not linked (yet)
 " then we make it follow hl-Whitespace (or hl-SpecialKey)
 function s:patch_conceal() abort
     let l:id = hlID('Conceal')
-    if !empty(synIDattr(l:id, 'bg')) && l:id == synIDtrans(l:id)
-        execute 'hi! link Conceal' hlexists('Whitespace') ? 'Whitespace' : 'SpecialKey'
+    let l:bg = synIDattr(l:id, 'bg')
+    if l:id == synIDtrans(l:id) && !empty(l:bg) &&
+        \ l:bg isnot? synIDattr(hlID('Normal'), 'bg')
+        execute 'hi! link Conceal' has('nvim') ? 'Whitespace' : 'SpecialKey'
     endif
 endfunction
 
