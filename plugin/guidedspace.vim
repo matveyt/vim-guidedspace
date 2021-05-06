@@ -1,6 +1,6 @@
 " Vim GuidedSpace plugin
 " Maintainer:   matveyt
-" Last Change:  2021 Feb 22
+" Last Change:  2021 May 06
 " License:      https://unlicense.org
 " URL:          https://github.com/matveyt/vim-guidedspace
 
@@ -60,7 +60,7 @@ function s:remove_guides() abort
 endfunction
 
 " Set trap for Syntax event
-const s:thisfile = expand('<sfile>')
+let s:thisfile = expand('<sfile>')
 function s:trap_events(on) abort
     augroup GuidedSpace | au!
     if a:on
