@@ -1,4 +1,4 @@
-*guidedspace.txt*	Visualize indentation levels
+*guidedspace.txt* Visualize indentation levels
 
 ==============================================================================
 CONTENTS							 *GuidedSpace*
