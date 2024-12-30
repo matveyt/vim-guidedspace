@@ -1,6 +1,6 @@
 " Vim GuidedSpace plugin
 " Maintainer:   matveyt
-" Last Change:  2021 May 06
+" Last Change:  2024 Dec 30
 " License:      https://unlicense.org
 " URL:          https://github.com/matveyt/vim-guidedspace
 
@@ -61,7 +61,7 @@ endfunction
 
 " Set trap for Syntax event
 let s:thisfile = expand('<sfile>')
-function s:trap_events(on) abort
+function s:trap_events(on=v:true) abort
     augroup GuidedSpace | au!
     if a:on
         autocmd ColorScheme * call s:patch_conceal()
@@ -103,13 +103,13 @@ function s:user_command(bang, ...) abort
         endif
     else
         " do both
-        call s:trap_events(get(a:, 1, 1))
+        call s:trap_events(get(a:, 1, v:true))
         doautoall User GuidedSpace
     endif
 endfunction
 
 " Reset event trap
-call s:trap_events(get(g:, 'syntax_on'))
+call s:trap_events()
 if v:vim_did_enter && exists(':GuidedSpace') != 2
     " if loading plugin after VimEnter then force Syntax update
     doautoall User GuidedSpace
